@@ -129,7 +129,7 @@ exports.update = async (req, res) => {
 
     if (!foodId) {
         res.status(400).send({
-            message: "Food ID is required."
+            message: "Music ID is required."
         });
         return;
     }
@@ -139,7 +139,7 @@ exports.update = async (req, res) => {
 
         if (!food) {
             res.status(404).send({
-                message: `Food with ID ${foodId} not found.`
+                message: `Music with ID ${foodId} not found.`
             });
             return;
         }
@@ -203,12 +203,12 @@ exports.update = async (req, res) => {
         }
 
         res.send({
-            message: `Food with ID ${foodId} has been updated successfully.`
+            message: `Music with ID ${foodId} has been updated successfully.`
         });
     } catch (err) {
         console.error(err);
         res.status(500).send({
-            message: err.message || "Some error occurred while updating the food."
+            message: err.message || "Some error occurred while updating the Music."
         });
     }
 };
@@ -218,7 +218,7 @@ exports.delete = async (req, res) => {
 
     if (!foodId) {
         res.status(400).send({
-            message: "Food ID is required."
+            message: "Music ID is required."
         });
         return;
     }
@@ -248,12 +248,12 @@ exports.delete = async (req, res) => {
         });
 
         res.send({
-            message: `Food with ID ${foodId} has been deleted successfully.`
+            message: `Music with ID ${foodId} has been deleted successfully.`
         });
     } catch (err) {
         console.error(err);
         res.status(500).send({
-            message: err.message || "Some error occurred while deleting the food."
+            message: err.message || "Some error occurred while deleting the Music."
         });
     }
 };
@@ -430,7 +430,7 @@ exports.findByProductName = async (req, res) => {
 
             if (!categoryName) {
                 res.status(400).send({
-                    message: "Category name is required."
+                    message: "Plailist name is required."
                 });
                 return;
             }
@@ -443,7 +443,7 @@ exports.findByProductName = async (req, res) => {
 
             if (!categoryData) {
                 res.status(404).send({
-                    message: `Category with name '${categoryName}' not found.`
+                    message: `Plailist with name '${categoryName}' not found.`
                 });
                 return;
             }

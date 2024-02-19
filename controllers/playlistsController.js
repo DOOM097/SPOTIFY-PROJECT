@@ -41,7 +41,7 @@ exports.update = (req, res) => {
 
     if (!categoryId) {
         res.status(400).send({
-            message: "Category ID is required."
+            message: "Plailist ID is required."
         });
         return;
     }
@@ -50,7 +50,7 @@ exports.update = (req, res) => {
         .then(category => {
             if (!category) {
                 res.status(404).send({
-                    message: `Category with ID ${categoryId} not found.`
+                    message: `Plailist with ID ${categoryId} not found.`
                 });
             } else {
                 category.name = req.body.name;
@@ -58,12 +58,12 @@ exports.update = (req, res) => {
                 category.save()
                     .then(() => {
                         res.send({
-                            message: `Category with ID ${categoryId} has been updated successfully.`
+                            message: `Plailist with ID ${categoryId} has been updated successfully.`
                         });
                     })
                     .catch(err => {
                         res.status(500).send({
-                            message: err.message || "Some error occurred while updating the category."
+                            message: err.message || "Some error occurred while updating the Plailist."
                         });
                     });
             }
@@ -79,7 +79,7 @@ exports.delete = async (req, res) => {
 
     if (!categoryId) {
         return res.status(400).json({
-            message: "Category ID is required."
+            message: "Plailist ID is required."
         });
     }
 
@@ -88,7 +88,7 @@ exports.delete = async (req, res) => {
 
         if (!category) {
             return res.status(404).json({
-                message: `Category with ID ${categoryId} not found.`
+                message: `Plailist with ID ${categoryId} not found.`
             });
         }
 
@@ -97,12 +97,12 @@ exports.delete = async (req, res) => {
         await category.destroy();
 
         return res.json({
-            message: `Category with ID ${categoryId} and its associations have been deleted successfully.`
+            message: `Plailist with ID ${categoryId} and its associations have been deleted successfully.`
         });
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: error.message || "Some error occurred while deleting the category and its associations."
+            message: error.message || "Some error occurred while deleting the Plailist and its associations."
         });
     }
 };
