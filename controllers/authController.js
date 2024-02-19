@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); 
+const User = require('../models/user'); 
 const Role = require('../models/roles'); 
-const UserRole = require('../models/UserRoles'); 
+const UserRole = require('../models/userRoles'); 
 const secretKey = 'SECRET_KEY_RANDOM'; 
 
 exports.register = async (req, res) => {
@@ -74,3 +74,4 @@ exports.signin = async (req, res) => {
     res.status(500).json({ message: 'Произошла ошибка при аутентификации' });
   }
 };
+

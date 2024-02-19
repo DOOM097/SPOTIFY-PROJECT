@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const UserRole = require('../models/UserRoles'); 
+const UserRole = require('../models/userRoles'); 
 const secretKey = 'SECRET_KEY_RANDOM'; 
 
 exports.checkAdminRole = async (req, res, next) => {
