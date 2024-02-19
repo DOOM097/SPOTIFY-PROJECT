@@ -1,9 +1,4 @@
-/**
- * @swagger
- * tags:
- *   name: Playlists
- *   description: Операции с плейлистами
- */
+
 module.exports = (app) => {
     const express = require("express");
     const categories = require("../controllers/playlistsController.js");

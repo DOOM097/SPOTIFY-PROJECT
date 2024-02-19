@@ -1,6 +1,5 @@
 const Category = require("../models/playlists");
 const FoodCategory = require("../models/foodcategory");
-const Sequelize = require("sequelize");
 
 exports.create = (req, res) => {
     if (!req.body.name) {

@@ -9,7 +9,6 @@ module.exports = (app) => {
     router.get('/', userController.getAllUsers);
 
 
-    router.put('/update', userController.updateUserProfile);
 
    
 

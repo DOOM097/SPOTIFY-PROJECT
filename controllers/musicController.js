@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
     const foodData = {
         title: req.body.title,
         publishedDate: req.body.publishedDate,
-        thumbnailUrl: req.body.thumbnailUrl,
+        musicURL: req.body.thumbnailUrl,
         shortDescription: req.body.shortDescription,
     };
 
@@ -111,8 +111,8 @@ exports.findAll = async (req, res) => {
                 _id: food.id,
                 title: food.title,
                 publishedDate: food.publishedDate,
-                thumbnailUrl: food.thumbnailUrl,
-                categories: categoryNames
+                musicURL: food.thumbnailUrl,
+                playlists: categoryNames
             });
         }
 
@@ -321,8 +321,8 @@ exports.searchByTitle = async (req, res) => {
                 _id: food.id,
                 title: food.title,
                 publishedDate: food.publishedDate,
-                thumbnailUrl: food.thumbnailUrl,                
-                categories: categoryNames
+                musicURL: food.thumbnailUrl,                
+                playlists: categoryNames
             });
         }
 
@@ -410,8 +410,8 @@ exports.findByProductName = async (req, res) => {
                 _id: food.id,
                 title: food.title,
                 publishedDate: food.publishedDate,
-                thumbnailUrl: food.thumbnailUrl,                
-                categories: categoryNames
+                musicURL: food.thumbnailUrl,                
+                playlists: categoryNames
             });
         }
 
@@ -424,35 +424,35 @@ exports.findByProductName = async (req, res) => {
     }
 };
 
-exports.findByCategory = async (req, res) => {
-    try {
-        const categoryName = req.params.name;
+    exports.findByCategory = async (req, res) => {
+        try {
+            const categoryName = req.params.name;
 
-        if (!categoryName) {
-            res.status(400).send({
-                message: "Category name is required."
-            });
-            return;
-        }
-
-        const categoryData = await Category.findOne({
-            where: {
-                name: categoryName
+            if (!categoryName) {
+                res.status(400).send({
+                    message: "Category name is required."
+                });
+                return;
             }
-        });
 
-        if (!categoryData) {
-            res.status(404).send({
-                message: `Category with name '${categoryName}' not found.`
+            const categoryData = await Category.findOne({
+                where: {
+                    name: categoryName
+                }
             });
-            return;
-        }
 
-        const foodCategoryData = await FoodCategory.findAll({
-            where: {
-                CategoryId: categoryData.id
+            if (!categoryData) {
+                res.status(404).send({
+                    message: `Category with name '${categoryName}' not found.`
+                });
+                return;
             }
-        });
+
+            const foodCategoryData = await FoodCategory.findAll({
+                where: {
+                    CategoryId: categoryData.id
+                }
+            });
 
         const foodIds = foodCategoryData.map(item => item.FoodId);
 
@@ -500,8 +500,8 @@ exports.findByCategory = async (req, res) => {
                 _id: food.id,
                 title: food.title,
                 publishedDate: food.publishedDate,
-                thumbnailUrl: food.thumbnailUrl,                
-                categories: categoryNames
+                musicURL: food.thumbnailUrl,                
+                playlists: categoryNames
             });
         }
 
@@ -513,4 +513,3 @@ exports.findByCategory = async (req, res) => {
         });
     }
 };
-
