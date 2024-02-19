@@ -1,13 +1,8 @@
-// database.js
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize({
-  dialect: 'mysql',
+const sequelize = new Sequelize('spotify_api', 'root', '', {
   host: 'localhost',
-  database: 'spotify_api',
-  username: 'root',
-  password: '',
-  
+  dialect: 'mysql'
 });
 
 module.exports = sequelize;

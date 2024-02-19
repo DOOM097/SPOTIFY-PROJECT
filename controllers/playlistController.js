@@ -1,67 +1,45 @@
-// controllers/playlistController.js
-const Playlist = require('../models/Playlist');
+const { Playlist } = require('../models/Playlist');
 
-// Получить все плейлисты
-exports.getAllPlaylists = async (req, res) => {
+exports.create = async (req, res) => {
     try {
-        const playlists = await Playlist.findAll();
-        res.json(playlists);
-    } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
-
-// Получить плейлист по ID
-exports.getPlaylistById = async (req, res) => {
-    try {
-        const playlistId = req.params.id;
-        const playlist = await Playlist.findByPk(playlistId);
-        if (!playlist) {
-            return res.status(404).json({ error: 'Playlist not found' });
-        }
-        res.json(playlist);
-    } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
-
-// Создать новый плейлист
-exports.createPlaylist = async (req, res) => {
-    try {
-        const { name, userId } = req.body;
-        const newPlaylist = await Playlist.create({ name, userId });
+        const newPlaylist = await Playlist.create(req.body);
         res.status(201).json(newPlaylist);
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Failed to create playlist' });
     }
 };
 
-// Обновить информацию о плейлисте
-exports.updatePlaylist = async (req, res) => {
+exports.findAll = async (req, res) => {
     try {
-        const playlistId = req.params.id;
-        const { name, userId } = req.body;
-        const [updated] = await Playlist.update({ name, userId }, { where: { id: playlistId } });
-        if (updated) {
-            const updatedPlaylist = await Playlist.findByPk(playlistId);
-            return res.json(updatedPlaylist);
-        }
-        throw new Error('Playlist not found');
+        const playlists = await Playlist.findAll();
+        res.status(200).json(playlists);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Failed to fetch playlists' });
     }
 };
 
-// Удалить плейлист
-exports.deletePlaylist = async (req, res) => {
+exports.update = async (req, res) => {
     try {
-        const playlistId = req.params.id;
-        const deleted = await Playlist.destroy({ where: { id: playlistId } });
-        if (deleted) {
-            return res.json({ message: 'Playlist deleted successfully' });
+        const { id } = req.params;
+        const [updatedRows] = await Playlist.update(req.body, { where: { id } });
+        if (updatedRows === 0) {
+            return res.status(404).json({ error: 'Playlist not found' });
         }
-        throw new Error('Playlist not found');
+        res.status(200).json({ message: 'Playlist updated successfully' });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Failed to update playlist' });
+    }
+};
+
+exports.delete = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedRowCount = await Playlist.destroy({ where: { id } });
+        if (deletedRowCount === 0) {
+            return res.status(404).json({ error: 'Playlist not found' });
+        }
+        res.status(200).json({ message: 'Playlist deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete playlist' });
     }
 };

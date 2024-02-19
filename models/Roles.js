@@ -1,31 +1,30 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
-const Playlist = sequelize.define('playlist', {
-  id: {
+
+const Role = sequelize.define('Roles', {
+  RoleID: {
     autoIncrement: true,
     type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: true
   },
-  name: {
+  RoleName: {
     type: Sequelize.STRING(255),
     allowNull: false
-  },
-  description: {
-    type: Sequelize.TEXT,
-    allowNull: true
   }
 }, {
-  tableName: 'playlists',
+  tableName: 'Roles',
   timestamps: false,
   indexes: [
     {
-      name: 'PRIMARY',
+      name: "PRIMARY",
       unique: true,
-      using: 'BTREE',
-      fields: [{ name: 'id' }]
-    }
+      using: "BTREE",
+      fields: [
+        { name: "RoleID" },
+      ]
+    },
   ]
 });
 
-module.exports = Playlist;
+module.exports = Role;

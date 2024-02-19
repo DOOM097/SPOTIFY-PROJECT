@@ -1,65 +1,45 @@
- 
-const User = require('../models/User');
+const { User } = require('../models/User');
 
-// Получить всех пользователей
-exports.getAllUsers = async (req, res) => {
-    try {
-        const users = await User.findAll();
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
-
-// Получить пользователя по ID
-exports.getUserById = async (req, res) => {
-    try {
-        const userId = req.params.id;
-        const user = await User.findByPk(userId);
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        res.json(user);
-    } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
-
-// Создать нового пользователя
-exports.createUser = async (req, res) => {
+exports.create = async (req, res) => {
     try {
         const newUser = await User.create(req.body);
         res.status(201).json(newUser);
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Failed to create user' });
     }
 };
 
-// Обновить информацию о пользователе
-exports.updateUser = async (req, res) => {
+exports.findAll = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const [updated] = await User.update(req.body, { where: { id: userId } });
-        if (!updated) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        const updatedUser = await User.findByPk(userId);
-        res.json(updatedUser);
+        const users = await User.findAll();
+        res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Failed to fetch users' });
     }
 };
 
-// Удалить пользователя
-exports.deleteUser = async (req, res) => {
+exports.update = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const deleted = await User.destroy({ where: { id: userId } });
-        if (!deleted) {
+        const { id } = req.params;
+        const [updatedRows] = await User.update(req.body, { where: { id } });
+        if (updatedRows === 0) {
             return res.status(404).json({ error: 'User not found' });
         }
-        res.status(204).end();
+        res.status(200).json({ message: 'User updated successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Failed to update user' });
+    }
+};
+
+exports.delete = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedRowCount = await User.destroy({ where: { id } });
+        if (deletedRowCount === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete user' });
     }
 };

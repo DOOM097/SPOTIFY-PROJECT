@@ -1,21 +1,13 @@
-// routes/trackRoutes.js
-const express = require('express');
-const router = express.Router();
-const trackController = require('../controllers/trackController');
+module.exports = (app) => {
+    const express = require("express");
+    const tracks = require("../controllers/trackController.js");
+    const router = express.Router();
+    const checkRole = require('../middleware/checkRole');
 
-// Получить все треки
-router.get('/tracks', trackController.getAllTracks);
+    router.post("/", tracks.create);
+    router.get("/", tracks.findAll);
+    router.put("/:id", checkRole.checkAdminRole, tracks.update);
+    router.delete("/:id", checkRole.checkAdminRole, tracks.delete);
 
-// Получить трек по ID
-router.get('/tracks/:id', trackController.getTrackById);
-
-// Создать новый трек
-router.post('/tracks', trackController.createTrack);
-
-// Обновить информацию о треке
-router.put('/tracks/:id', trackController.updateTrack);
-
-// Удалить трек
-router.delete('/tracks/:id', trackController.deleteTrack);
-
-module.exports = router;
+    app.use("/api/tracks", router);
+};

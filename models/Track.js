@@ -1,22 +1,36 @@
-const { DataTypes } = require('sequelize');
+const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
-const Playlist = require('./Playlist');
 
-const Track = sequelize.define('Track', {
+// Модель для треков (музыки)
+const Track = sequelize.define('track', {
+  id: {
+    autoIncrement: true,
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: true
+  },
   title: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING(255),
     allowNull: false
   },
-  album: {
-    type: DataTypes.STRING,
-    allowNull: true
+  artist: {
+    type: Sequelize.STRING(255),
+    allowNull: false
   },
-  genre: {
-    type: DataTypes.STRING,
-    allowNull: true
+  duration: {
+    type: Sequelize.INTEGER,
+    allowNull: false
   }
+}, {
+  tableName: 'tracks',
+  timestamps: false,
+  indexes: [
+    {
+      name: 'PRIMARY',
+      unique: true,
+      using: 'BTREE',
+      fields: [{ name: 'id' }]
+    }
+  ]
 });
-
-Track.belongsTo(Playlist);
-
 module.exports = Track;
